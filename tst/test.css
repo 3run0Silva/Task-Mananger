@@ -1,0 +1,17 @@
+.container {
+    width: 50%;
+    height: 300px;
+    float: left;
+    background-color: #f0f0f0;
+}
+
+.draggable {
+    width: 200px;
+    height: 100px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    line-height: 100px;
+    position: absolute;
+    cursor: grab;
+}

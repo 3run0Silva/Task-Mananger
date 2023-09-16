@@ -15,6 +15,14 @@ function addTask() {
   taskInput.value = '';
 }
 
+// Function to verify "Enter" was pressed
+function checkEnter(event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
+}
+
+
 // Function to toggle task completion
 function toggleTask(index) {
   tasksList[index].checked = !tasksList[index].checked;

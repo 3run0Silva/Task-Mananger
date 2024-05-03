@@ -1,6 +1,3 @@
-import { initializeServices } from "../JS/providers/database/config"
-
-
 const tasksList = [];
 
 // Grab tasks from HTML
@@ -13,18 +10,10 @@ function addTask() {
     checked: false
   };
   tasksList.push(task);
-  saveTasksToFirestore();
+  saveTasksToLocalStorage();
   displayTasks();
   taskInput.value = '';
 }
-
-// Function to verify "Enter" was pressed
-function checkEnter(event) {
-  if (event.key === "Enter") {
-    addTask();
-  }
-}
-
 
 // Function to toggle task completion
 function toggleTask(index) {
@@ -74,46 +63,13 @@ function saveTasksToLocalStorage() {
 }
 
 // Function to load tasks from local storage
-// function loadTasksFromLocalStorage() {
-//   const savedTasks = localStorage.getItem('tasks');
-//   if (savedTasks) {
-//     tasksList.push(...JSON.parse(savedTasks));
-//     displayTasks();
-//   }
-// }
-
-const saveTasksToFirestore = async (tasksList) => {
-
-  const {db} = initializeServices()
-  const taskCollection = collection(db, 'tasks')
-
-  try {
-    for (let task of tasksList) {
-      await addDoc(taskCollection, { task })
-    }
-    console.log('Task saved to Firestore');
-  } catch (error) {
-    console.log('Error adding document to Firebase');
-  }
-
-}
-
-// Function to load tasks from local storage
-const loadTasksFromFirestore = async () => {
-  const {db} = initializeServices()
-  const taskCollection = collection(db, 'tasks')
-
-  try {
-    const querySnapshot = await getDocs(taskCollection)
-    tasksList = querySnapshot.docs.map(doc => doc.data().task)
-    displayTasks(tasksList)
-  } catch (error) {
-    console.error("Error getting documents: ", error)
+function loadTasksFromLocalStorage() {
+  const savedTasks = localStorage.getItem('tasks');
+  if (savedTasks) {
+    tasksList.push(...JSON.parse(savedTasks));
+    displayTasks();
   }
 }
 
 // Load tasks from local storage on page load
-// loadTasksFromLocalStorage();
-
-// Load tasks from firebase db on page load
-loadTasksFromFirestore()
+loadTasksFromLocalStorage();
